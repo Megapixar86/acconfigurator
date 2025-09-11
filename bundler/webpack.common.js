@@ -64,6 +64,14 @@ module.exports = {
                 }
             },
             {
+                test: /\.(xlsx)$/,
+                type: 'asset/resource',
+                generator:
+                {
+                    filename: 'assets/data/[hash][ext]'
+                }
+            },
+            {
                 test: /\.(ttf|eot|woff|woff2)$/,
                 type: 'asset/resource',
                 generator:

@@ -1,11 +1,30 @@
 import * as XLSX from 'xlsx';
+import accXlsxUrl from './static/Acc.xlsx';
 import './style.css';
-import wallmountImg from './static/images/ptz/box/LTV-BMW-JB-U8.2.png';
-//import ceilmountImg from './static/images/ceilmount/kronstein-a.jpg';
-//import conermountImg from './static/images/conermount/kronstein-a.jpg';
-//import polemountImg from './static/images/polemount/kronstein-a.jpg';
-//import boxImg from './static/images/box/kronstein-a.jpg';
-//import * as dat from 'lil-gui';
+//import wallmountImg from './static/images/ptz/box/LTV-BMW-JB-U8.2.png';
+//import ptzboxImg from './static/images/ptzbox.png';
+import ptzwallmountImg from './static/images/ptzwallmount.png';
+import ptz2wallmountImg from './static/images/ptz2wallmount.png';
+import ballwallmountImg from './static/images/ballwallmount.png';
+import bulletwallmountImg from './static/images/bulletwallmount.png';
+import bullet2wallmountImg from './static/images/bullet2wallmount.png';
+import ballceilmountImg from './static/images/ballceilmount.png';
+import bulletceilmountImg from './static/images/bulletceilmount.png';
+import bullet2ceilmountImg from './static/images/bullet2ceilmount.png';
+import ptzceilmountImg from './static/images/ptzceilmount.png';
+//import ptzceilmountImg2 from './static/images/ptzceilmount2.png';
+import ptz2ceilmountImg from './static/images/ptz2ceilmount.png';
+//import ptz2ceilmountImg2 from './static/images/ptz2ceilmount2.png';
+import ptzconermountImg from './static/images/ptzconermount.png';
+import ptz2conermountImg from './static/images/ptz2conermount.png';
+import ballconermountImg from './static/images/ballconermount.png';
+import bulletconermountImg from './static/images/bulletconermount.png';
+import bullet2conermountImg from './static/images/bullet2conermount.png';
+import ballboxImg from './static/images/ballbox.png';
+import ptzboxImg from './static/images/ptzbox.png';
+import ptz2boxImg from './static/images/ptz2box.png';
+import bulletboxImg from './static/images/bulletbox.png';
+import bullet2boxImg from './static/images/bullet2box.png';
 
 // переменные
 let accessories;
@@ -17,49 +36,8 @@ const es = (selector)=> document.querySelector(selector)
 //извлечь значение первого элемента по имени
 const enm = (name)=> document.getElementsByName(name)[0]
 
-const url = "http://127.0.0.1:8080/Acc.xlsx"
-/*const accessories = [
-	{
-		id: 1,
-		name: "Чехол Premium",
-		price: "2 990 ₽",
-		image: "https://via.placeholder.com/200x200/667eea/white?text=Premium+Case",
-		series: ["premium"],
-		caseType: ["metal", "composite"],
-		model: ["model-a", "model-b"],
-		mountType: ["magnetic"]
-	},
-	{
-		id: 2,
-		name: "Крепление Clip Pro",
-		price: "1 490 ₽",
-		image: "https://via.placeholder.com/200x200/764ba2/white?text=Clip+Pro",
-		series: ["standard", "premium"],
-		caseType: ["plastic", "composite"],
-		model: ["model-b", "model-c"],
-		mountType: ["clip"]
-	},
-	{
-		id: 3,
-		name: "Адаптер Universal",
-		price: "890 ₽",
-		image: "https://via.placeholder.com/200x200/4CAF50/white?text=Universal",
-		series: ["budget", "standard"],
-		caseType: ["plastic"],
-		model: ["model-a", "model-c"],
-		mountType: ["adhesive"]
-	},
-	{
-		id: 4,
-		name: "Магнитное крепление",
-		price: "1 790 ₽",
-		image: "https://via.placeholder.com/200x200/FF6B6B/white?text=Magnetic",
-		series: ["premium"],
-		caseType: ["metal"],
-		model: ["model-a"],
-		mountType: ["magnetic"]
-	}
-];*/
+const url = accXlsxUrl
+//const url = "https://cloud.luis.ru/index.php/f/538620/download/Acc.xlsx"
 
 async function getData(address, sht){
 	let arr = new Array()
@@ -214,7 +192,31 @@ function displayResults(accessoriesList) {
 			if ((!selectedMountType || selectedMountType === 'wallmount') && wallmountOptions.length > 0 && wallmountOptions[0] !== 'Н/Д') {
 				wallmountOptions.forEach((option, index) => {
 					const processedOption = processStarText(option, accessory.box);
-					const imageUrl = accessory.wallmountImage || 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+					let imageUrl;
+					switch (accessory.box) {
+						case 'LTV-BMW-JB-U8':
+						case 'LTV-BMW-JB-U3':
+							if (accessory.type === 'PTZ') {
+								imageUrl = ptzwallmountImg;
+							} else if (accessory.type === 'dome' || accessory.type === 'ball') {
+								imageUrl = ballwallmountImg;
+							} else {
+								imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							}
+							break;
+						case 'LTV-BMW-JB-U5':
+							imageUrl = bulletwallmountImg;
+							break;
+						case 'LTV-BMW-JB-U4':
+							imageUrl = bullet2wallmountImg;
+							break;
+						case '-':
+							imageUrl = ptz2wallmountImg;
+							break;
+						default:
+							imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							break;
+					}
 					mountOptionsHTML += `
 						<div class="accessory-item">
 							<div class="accessory-name">Крепление на стену вариант ${index + 1}: ${processedOption}</div>
@@ -229,7 +231,31 @@ function displayResults(accessoriesList) {
 			if ((!selectedMountType || selectedMountType === 'ceilmount') && ceilmountOptions.length > 0 && ceilmountOptions[0] !== 'Н/Д') {
 				ceilmountOptions.forEach((option, index) => {
 					const processedOption = processStarText(option, accessory.box);
-					const imageUrl = accessory.ceilmountImage || 'https://via.placeholder.com/150x150/4CAF50/white?text=Ceiling+Mount';
+					let imageUrl;
+					switch (accessory.box) {
+						case 'LTV-BMW-JB-U8':
+						case 'LTV-BMW-JB-U3':
+							if (accessory.type === 'PTZ') {
+								imageUrl = ptzceilmountImg;
+							} else if (accessory.type === 'dome' || accessory.type === 'ball') {
+								imageUrl = ballceilmountImg;
+							} else {
+								imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							}
+							break;
+						case 'LTV-BMW-JB-U5':
+							imageUrl = bulletceilmountImg;
+							break;
+						case 'LTV-BMW-JB-U4':
+							imageUrl = bullet2ceilmountImg;
+							break;
+						case '-':
+							imageUrl = ptz2ceilmountImg;
+							break;
+						default:
+							imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							break;
+					}
 					mountOptionsHTML += `
 						<div class="accessory-item">
 							<div class="accessory-name">Крепление на потолок вариант ${index + 1}: ${processedOption}</div>
@@ -244,7 +270,31 @@ function displayResults(accessoriesList) {
 			if ((!selectedMountType || selectedMountType === 'conermount') && conermountOptions.length > 0 && conermountOptions[0] !== 'Н/Д') {
 				conermountOptions.forEach((option, index) => {
 					const processedOption = processStarText(option, accessory.box);
-					const imageUrl = accessory.conermountImage || 'https://via.placeholder.com/150x150/FF9800/white?text=Corner+Mount';
+					let imageUrl;
+					switch (accessory.box) {
+						case 'LTV-BMW-JB-U8':
+						case 'LTV-BMW-JB-U3':
+							if (accessory.type === 'PTZ') {
+								imageUrl = ptzconermountImg;
+							} else if (accessory.type === 'dome' || accessory.type === 'ball') {
+								imageUrl = ballconermountImg;
+							} else {
+								imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							}
+							break;
+						case 'LTV-BMW-JB-U5':
+							imageUrl = bulletconermountImg;
+							break;
+						case 'LTV-BMW-JB-U4':
+							imageUrl = bullet2conermountImg;
+							break;
+						case '-':
+							imageUrl = ptz2conermountImg;
+							break;
+						default:
+							imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							break;
+					}
 					mountOptionsHTML += `
 						<div class="accessory-item">
 							<div class="accessory-name">Крепление на угол вариант ${index + 1}: ${processedOption}</div>
@@ -259,7 +309,32 @@ function displayResults(accessoriesList) {
 			if ((!selectedMountType || selectedMountType === 'polemount') && polemountOptions.length > 0 && polemountOptions[0] !== 'Н/Д') {
 				polemountOptions.forEach((option, index) => {
 					const processedOption = processStarText(option, accessory.box);
-					const imageUrl = accessory.polemountImage || 'https://via.placeholder.com/150x150/9C27B0/white?text=Pole+Mount';
+					//const imageUrl = accessory.polemountImage || 'https://via.placeholder.com/150x150/9C27B0/white?text=Pole+Mount';
+					let imageUrl;
+					switch (accessory.box) {
+						case 'LTV-BMW-JB-U8':
+						case 'LTV-BMW-JB-U3':
+							if (accessory.type === 'PTZ') {
+								imageUrl = ptzconermountImg;
+							} else if (accessory.type === 'dome' || accessory.type === 'ball') {
+								imageUrl = ballconermountImg;
+							} else {
+								imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							}
+							break;
+						case 'LTV-BMW-JB-U5':
+							imageUrl = bulletconermountImg;
+							break;
+						case 'LTV-BMW-JB-U4':
+							imageUrl = bullet2conermountImg;
+							break;
+						case '-':
+							imageUrl = ptz2conermountImg;
+							break;
+						default:
+							imageUrl = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+							break;
+					}
 					mountOptionsHTML += `
 						<div class="accessory-item">
 							<div class="accessory-name">Крепление на столб вариант ${index + 1}: ${processedOption}</div>
@@ -269,11 +344,35 @@ function displayResults(accessoriesList) {
 			} else if (!selectedMountType || selectedMountType === 'polemount') {
 				mountOptionsHTML += `<div class="accessory-item"><div class="accessory-name">Крепление на столб: Н/Д</div></div>`;
 			}
-			
+			let boxImg;
+			switch (accessory.box) {
+				case 'LTV-BMW-JB-U8':
+				case 'LTV-BMW-JB-U3':
+					if (accessory.type === 'PTZ') {
+						boxImg = ptzboxImg;
+					} else if (accessory.type === 'dome' || accessory.type === 'ball') {
+						boxImg = ballboxImg;
+					} else {
+						boxImg = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+					}
+					break;
+				case 'LTV-BMW-JB-U5':
+					boxImg = bulletboxImg;
+					break;
+				case 'LTV-BMW-JB-U4':
+					boxImg = bullet2boxImg;
+					break;
+				case '-':
+					boxImg = ptz2boxImg;
+					break;
+				default:
+					boxImg = 'https://via.placeholder.com/150x150/667eea/white?text=Wall+Mount';
+					break;
+			}
 			const accessoryElement = `
 				<div class="accessory-item">
 					<div class="accessory-name">Коробка: ${accessory.box || 'Н/Д'}</div>
-					<img src="${wallmountImg}" alt="Коробка" class="accessory-image">
+					<img src="${boxImg}" alt="Коробка" class="accessory-image">
 				</div>
 				${mountOptionsHTML}
 			`;
