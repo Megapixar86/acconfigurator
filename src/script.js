@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
-import accXlsxUrl from './static/Acc2.xlsx';
+//import accXlsxUrl from './static/Acc2.xlsx';
+import accXlsxUrl from './static/Acc3.xlsx';
 import './style.css';
 //import wallmountImg from './static/images/ptz/box/LTV-BMW-JB-U8.2.png';
 //import ptzboxImg from './static/images/ptzbox.png';
@@ -226,6 +227,17 @@ function findAccessories() {
 			return filacc.includes(series);
 		})
 		.filter(a => {
+			console.log(a['Box'])
+			console.log(filteredbox[0].Box)
+			/*if(a['Box'] == null || a['Box'] == undefined || a['Box'] == '') {
+				return false;
+			}
+			if(filteredbox[0].Box == null || filteredbox[0].Box == undefined || filteredbox[0].Box == '') {
+				return false;
+			}*/
+			return a['Box'] === filteredbox[0].Box
+		})
+		.filter(a => {
 			// Проверяем, что Fix1 существует
 			if (!a['Fix1']) {
 				return false;
@@ -318,7 +330,7 @@ function displayResults(accessoriesList) {
 				mountOptionsHTML += `<div class="accessory-name">${accessory.Fix3}</div>`;
 			}
 			if (accessory.Pic != null && String(accessory.Pic).trim() !== '') {
-				mountOptionsHTML += `<img src="/images/${accessory.Pic}.png" class="accessory-image"></div>`;
+				mountOptionsHTML += `<img src="/images2/${accessory.Pic}.png" class="accessory-image"></div>`;
 			} else {
 				mountOptionsHTML += `</div>`;
 			}
