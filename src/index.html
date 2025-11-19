@@ -5,44 +5,44 @@
 	<script src = "script.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="calc">
         <h1>Конфигуратор аксессуаров</h1>
         
         <div class="configurator">
             <div class="form-group">
-                <label for="series">Серия:</label>
-                <select id="series">
+                <label for="series" class="label-fild">Серия:</label>
+                <select id="series" class="select-fild">
                     <option value="">Выберите серию</option>
                     <option value="1">1 серия</option>
+                    <option value="3">3 серия</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="caseType">Тип корпуса:</label>
-                <select id="caseType">
+            <div class="form-group" id="case" style="display: none;">
+                <label for="caseType" class="label-fild">Тип корпуса:</label>
+                <select id="caseType" class="select-fild">
                     <option value="">Выберите тип корпуса</option>
-                    <option value="dome">Купольная</option>
-                    <option value="ball">Камера типа шар</option>
-                    <option value="bullet">Цилиндр</option>
-                    <option value="PTZ">Поворотная</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="objective" style="display: none;">
+                <label for="objectiveType" class="label-fild">Тип объектива:</label>
+                <select id="objectiveType" class="select-fild">
+                    <option value="">Выберите тип объектива</option>
                 </select>
             </div>
 
             <div class="form-group" id="modelGroup" style="display: none;">
-                <label for="model">Модель:</label><br>
-                <select id="model">
+                <label for="model" class="label-fild">Модель:</label><br>
+                <select id="model" class="select-fild">
                     <option value="">Выберите модель</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="mountType">Тип крепления:</label>
-                <select id="mountType">
+            <div class="form-group" id="mount" style="display: none;">
+                <label for="mountType" class="label-fild">Тип крепления:</label>
+                <select id="mountType" class="select-fild">
                     <option value="">Выберите тип крепления</option>
-                    <option value="wallmount">Крепление на стену</option>
-                    <option value="ceilmount">Крепеление на потолок</option>
-                    <option value="conermount">Крепление на угол</option>
-                    <option value="polemount">Крепление на столб</option>
                 </select>
             </div>
 
