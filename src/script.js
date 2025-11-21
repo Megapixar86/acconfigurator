@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 //import accXlsxUrl from './static/Acc2.xlsx';
-import accXlsxUrl from './static/Acc3.xlsx';
+//import accXlsxUrl from './static/Acc3.xlsx';
 import './style.css';
 //import wallmountImg from './static/images/ptz/box/LTV-BMW-JB-U8.2.png';
 //import ptzboxImg from './static/images/ptzbox.png';
@@ -47,9 +47,10 @@ const es = (selector)=> document.querySelector(selector)
 //извлечь значение первого элемента по имени
 const enm = (name)=> document.getElementsByName(name)[0]
 
-const url = accXlsxUrl
+//const url = accXlsxUrl
 //const url = "http://127.0.0.1:8080/Acc.xlsx"
-//const url = "https://cloud.luis.ru/index.php/s/HnwNpx33TZLEass/download/Acc.xlsx"
+//const url = "https://cloud.luis.ru/index.php/s/HnwNpx33TZLEass/download/Acc3.xlsx"
+const url = "https://cloud.luis.ru/index.php/s/Mp3qKRbkx5CnPi8/download/Acc3.xlsx"
 
 async function getData(address, sht){
 	let arr = new Array()
