@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 //import accXlsxUrl from './static/Acc2.xlsx';
-//import accXlsxUrl from './static/Acc3.xlsx';
+//import accXlsxUrl from './static/Acc5.xlsx';
 import './style.css';
 //import wallmountImg from './static/images/ptz/box/LTV-BMW-JB-U8.2.png';
 //import ptzboxImg from './static/images/ptzbox.png';
@@ -50,7 +50,8 @@ const enm = (name)=> document.getElementsByName(name)[0]
 //const url = accXlsxUrl
 //const url = "http://127.0.0.1:8080/Acc.xlsx"
 //const url = "https://cloud.luis.ru/index.php/s/HnwNpx33TZLEass/download/Acc3.xlsx"
-const url = "https://cloud.luis.ru/index.php/s/Mp3qKRbkx5CnPi8/download/Acc3.xlsx"
+//const url = "https://cloud.luis.ru/index.php/s/DsjLGoS3P4jwyM3/download/Acc5.xlsx"
+const url = "https://cloud.luis.ru/index.php/s/9erPMBR4jZJWdjG/download/Acc6.xlsx"
 
 async function getData(address, sht){
 	let arr = new Array()
@@ -111,7 +112,7 @@ function fillField(nameDiv, selChild){
 		select1 = el('series').value
 		select2 = el('caseType').value
 		select3 = el('objectiveType').value
-		el('mount').style.display = "block";
+		el('mount').style.display = "none";
 	}
 	const elDiv = document.getElementById(nameDiv);
 	const FField = document.getElementById(selChild);
@@ -158,6 +159,13 @@ function fillField(nameDiv, selChild){
 }
 
 function fillMountField(){
+	const elDiv = document.getElementById('modelGroup');
+	const ch_div = document.getElementById('mount');
+	if (!elDiv) {
+		ch_div.style.display = 'none';
+		return;
+	}
+	ch_div.style.display = 'block'
 	const select = el('caseType').value
 	const filteredMount = new Set();
 	acc.forEach(acc => {
@@ -246,19 +254,27 @@ function findAccessories() {
 			// Преобразуем Fix1 в строку, если нужно
 			const fix1Str = String(a['Fix1']);
 			// Если есть запятая, делаем split, иначе возвращаем массив с одним элементом
-			const fix1Array = fix1Str.includes(',')
+			/*const fix1Array = fix1Str.includes(',')
 				? fix1Str.split(',').map(item => item.trim())
-				: [fix1Str.trim()];
+				: [fix1Str.trim()];*/
 			// Проверяем, что хотя бы одно значение из needAcc присутствует в fix1Array
 			//return needAcc.some(acc => fix1Array.includes(acc));
+			return needAcc.includes(fix1Str);
 			// Находим первое значение из needAcc, которое присутствует в fix1Array
-			const matchingAcc = needAcc.find(acc => fix1Array.includes(acc));
+			//const matchingAcc = needAcc.find(acc => fix1Array.includes(acc));
+			/*return needAcc.find(acc => {
+				if(fix1Array.includes(acc)){
+					//a['Fix1'] = matchingAcc;
+					return true;
+				}
+				return false;
+		});*/
 			// Если найдено совпадение, заменяем значение Fix1
-			if (matchingAcc) {
+			/*if (matchingAcc) {
 				a['Fix1'] = matchingAcc;
 				return true;
 			}
-			return false;
+			return false;*/
 		})
 	console.log(filteredAccessories)
 	// Заменяем 'cam' на modelV в filteredAccessories
@@ -279,6 +295,7 @@ function findAccessories() {
 function displayResults(accessoriesList) {
 	const resultsDiv = document.getElementById('results');
 	const gridDiv = document.getElementById('accessoryGrid');
+	//console.log(filteredbox)
 	
 	gridDiv.innerHTML = '';
 	console.log(accessoriesList)
@@ -545,30 +562,38 @@ function onLoadHandler() {
 
 	el("series").addEventListener('change', function() {
 		fillField('case', 'caseType');
+		findAccessories()
 		document.getElementById('accessoryGrid').innerHTML = '';
+		el("results").style.display = 'none'
 		//el('results').style.display = 'none';
 	});
 
 	el("caseType").addEventListener('change', function() {
 		fillField('objective', 'objectiveType');
+		findAccessories()
 		document.getElementById('accessoryGrid').innerHTML = '';
+		el("results").style.display = 'none'
 		//el('results').style.display = 'none';
 	});
 
 	el("objectiveType").addEventListener('change', function() {
 		fillField('modelGroup', 'model');
+		findAccessories()
 		document.getElementById('accessoryGrid').innerHTML = '';
+		el("results").style.display = 'none'
 		//el('results').style.display = 'none';
 	});
 
 	el("model").addEventListener('change', function() {
 		el('mountType').selectedIndex = 0;
 		fillMountField();
+		findAccessories()
 		document.getElementById('accessoryGrid').innerHTML = '';
-		//el('results').style.display = 'none';
+		el('results').style.display = 'none';
 	});
 
 	el("mountType").addEventListener('change', function() {
 		findAccessories();
+		el("results").style.display = 'block'
 	});
 }
